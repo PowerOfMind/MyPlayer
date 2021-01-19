@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import com.jjbarriga.myplayer.adaptadores.MediaAdapter
+import com.jjbarriga.myplayer.utils.getItems
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,10 +17,10 @@ class MainActivity : AppCompatActivity() {
         toast("Hello Kotlin!")
         /*val message: TextView = findViewById(R.id.message)
         message.text = "Hello Kotlin!"*/
-        val message: EditText = findViewById(R.id.message)
-        val btn : Button = findViewById(R.id.btn)
 
-        btn.setOnClickListener { toast("Este es el mensaje: ${message.text}") }
+        val recycler: RecyclerView = findViewById(R.id.recycler)
+        recycler.adapter = MediaAdapter(getItems())
+
     }
 
 
