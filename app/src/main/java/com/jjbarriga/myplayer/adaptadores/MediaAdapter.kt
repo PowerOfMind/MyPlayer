@@ -2,8 +2,6 @@ package com.jjbarriga.myplayer.adaptadores
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jjbarriga.myplayer.R
 import com.jjbarriga.myplayer.databinding.ViewMediaItemBinding
@@ -11,10 +9,12 @@ import com.jjbarriga.myplayer.utils.MediaItem
 import com.jjbarriga.myplayer.utils.MediaItem.Type.*
 import com.jjbarriga.myplayer.utils.inflate
 import com.jjbarriga.myplayer.utils.loadUrl
-import com.jjbarriga.myplayer.utils.toast
-import kotlinx.android.synthetic.main.view_media_item.view.*
 
-class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+/*interface Listener{
+    fun onClick(mediaItem: MediaItem): Unit   //(MediaItem) -> Unit
+}*/
+
+class MediaAdapter(val items: List<MediaItem>, private val listener: (MediaItem) -> Unit) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,7 +25,7 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-
+        holder.itemView.setOnClickListener {listener(item) }
     }
 
     override fun getItemCount(): Int = items.size
@@ -43,9 +43,7 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
                 mediaTitle.text = mediaItem.title
                 mediaThumb.loadUrl(mediaItem.url)
                 //Glide.with(thumb).load(mediaItem.url).into(thumb)
-                root.setOnClickListener {
-                    toast(binding.mediaTitle.text.toString())
-                }
+                //root.setOnClickListener {toast(mediaItem.title) }
                 mediaVideoIndicator.visibility = when (mediaItem.type) {
                     PHOTO -> View.GONE
                     VIDEO -> View.VISIBLE

@@ -14,7 +14,7 @@ class Developer(name: String) : Person(name, 20) {
 
 }
 
-fun test(view: View) {
+/*fun test(view: View) {
     //val p = Person("Jhon", 30)
     //val d = Developer("Tom")
     when (view) {                                   //equivalente el switch de java, pero en cuanto una de las condiciones se cumple el resto no se ejecutan
@@ -24,24 +24,34 @@ fun test(view: View) {
                                                     //else equivale al break del switch
         else -> print("Nothing found")
     }
-    /*val result = when (view) {
+    *//*val result = when (view) {
         is TextView -> view.text.toString()
         is ViewGroup -> view.childCount.toString()
 
         else -> "Nothing found"
-    }*/
+    }*//*
+}*/
+
+fun test() {
+    /*val sum: (Int, Int) -> Int = { x, y -> x + y }
+    val mul = { x: Int, y: Int -> x * y }*/
+    val res = doOp(2, 3, ::sum)// 6
 }
 
-fun pruebasApply(context: Context){
+fun sum(x:Int, y:Int):Int = x+y
+
+fun doOp(x: Int, y: Int, op: (Int, Int) -> Int) = op(x, y)
+
+fun pruebasApply(context: Context) {
     val textView = TextView(context).apply {
         text = "hello"
         hint = "Goodbye"
         textSize = 25f
     }
     val textView2 = TextView(context)
-        with(textView2){
-            text = "hello"
-        }
+    with(textView2) {
+        text = "hello"
+    }
 }
 
 
