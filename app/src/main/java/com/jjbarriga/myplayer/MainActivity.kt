@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), Logger {
     //si queremos se puede sobreescribir el tag porque las interfaces pueden contener codigo
     override val tag: String = javaClass.simpleName
+    private val adapter by lazy { MediaAdapter(getItems()){toast(it.title)} }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,16 @@ class MainActivity : AppCompatActivity(), Logger {
         /*JAVA
         recycler.setAdapter....*/
         //KOTLIN
-        binding.recycler.adapter = MediaAdapter(getItems()){toast(it.title)}     //hay que asegurarse de que se añade el seleccionado
+        //binding.recycler.adapter = MediaAdapter(getItems()){toast(it.title)}     //hay que asegurarse de que se añade el seleccionado
+
+        binding.recycler.adapter = adapter  // con el lazy, hasta que no lleguemos a esta linea,
+                                            // no se ejecutara el codigo entre llaves de arriba
+                                            /**********************************************************/
+                                            // se usa para que cuando iniciemos la activity, retrasar
+                                            // la carga del adapter si faltan datos por recibir
+
+        adapter.items = getItems()          //esto llamaria a NotifyDataSetChanged() y actualizaria
+                                            // la lista con los nuevos datos
 
         val textView: TextView = TextView(this).apply2 {
             text = "Hello"

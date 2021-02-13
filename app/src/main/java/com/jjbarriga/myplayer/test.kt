@@ -35,7 +35,9 @@ class Developer(name: String) : Person(name, 20) {
 fun test() {
     /*val sum: (Int, Int) -> Int = { x, y -> x + y }
     val mul = { x: Int, y: Int -> x * y }*/
-    val res = doOp(2, 3, ::sum)// 6
+    //val res = doOp(2, 3, ::sum)// 6
+    val lazyVal by lazy{20}
+    lazyVal.toString()
 }
 
 fun sum(x:Int, y:Int):Int = x+y

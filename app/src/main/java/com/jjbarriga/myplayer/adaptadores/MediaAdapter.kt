@@ -2,6 +2,7 @@ package com.jjbarriga.myplayer.adaptadores
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.RecyclerView
 import com.jjbarriga.myplayer.R
 import com.jjbarriga.myplayer.databinding.ViewMediaItemBinding
@@ -9,12 +10,19 @@ import com.jjbarriga.myplayer.utils.MediaItem
 import com.jjbarriga.myplayer.utils.MediaItem.Type.*
 import com.jjbarriga.myplayer.utils.inflate
 import com.jjbarriga.myplayer.utils.loadUrl
+import kotlin.properties.Delegates
 
 /*interface Listener{
     fun onClick(mediaItem: MediaItem): Unit   //(MediaItem) -> Unit
 }*/
 
-class MediaAdapter(val items: List<MediaItem>, private val listener: (MediaItem) -> Unit) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+class MediaAdapter( items: List<MediaItem> = emptyList(),
+                    private val listener: (MediaItem) -> Unit) :
+        RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+
+    var items: List<MediaItem> by Delegates.observable(items){ _, _, _ ->
+        notifyDataSetChanged()
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
