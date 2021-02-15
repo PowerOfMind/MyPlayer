@@ -2,8 +2,6 @@ package com.jjbarriga.myplayer
 
 import android.content.Context
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 
 //fun add(x: Int, y: Int): Int = x + y
@@ -36,9 +34,46 @@ fun test() {
     /*val sum: (Int, Int) -> Int = { x, y -> x + y }
     val mul = { x: Int, y: Int -> x * y }*/
     //val res = doOp(2, 3, ::sum)// 6
-    val lazyVal by lazy{20}
-    lazyVal.toString()
+    /*val lazyVal by lazy{20}
+    lazyVal.toString()*/
+
+    //COLECCIONES
+    val listOfInt = listOf(2, 4, 5, 6)  //emptyList() para lista vacia
+    val listaVacia = emptyList<Int>()
+    val result = listOfInt.filter { it % 2 == 0 }
+            .map { it.toString() }
+            .sorted()
+    val set = setOf<Int>()   //similar a lista pero no permite repetir elementos
+
+    val map = mapOf("a" to 1, "b" to 2)      //listado de pares, que no se lo que es (usa funcion infix)
+
+    val newList = listaVacia + 3
+    val listResult = newList + listaVacia
+
+    //lista mutable ---- Se pueden editar y añadir elementos
+    val mutable = mutableListOf(3, 2, 5)
+    mutable.add(5)
+
+
+    //TIPO ESPECIAL
+    val sequence = listOfInt.filter { it % 2 == 0 }     //esto merece la pena cuando las operaciones
+            .asSequence()                               //son complejas o la lista sea muy grande (tiene tiempo de ejecucuin)
+            .map { it.toString() }                      //no es necesario usar el sort
+            .toList()
+
+
+    //FUNCIONES INFIX
+    for (i in 0 until 10){  //esto es como un for normal, de 0 a 10
+        TODO()
+    }
+    0 until2 10
+
 }
+
+//para crear funciones infix hay que poner esta palabra delante de la funcion
+// esto se usa mucho en los pares
+infix fun Int.until2(x: Int){}
+
 
 fun sum(x:Int, y:Int):Int = x+y
 

@@ -3,10 +3,14 @@ package com.jjbarriga.myplayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.ResultReceiver
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.jjbarriga.myplayer.adaptadores.MediaAdapter
 import com.jjbarriga.myplayer.databinding.ActivityMainBinding
+import com.jjbarriga.myplayer.utils.MediaItem
+import com.jjbarriga.myplayer.utils.MediaItem.*
 import com.jjbarriga.myplayer.utils.getItems
 import com.jjbarriga.myplayer.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -61,6 +65,21 @@ class MainActivity : AppCompatActivity(), Logger {
         toast("holo", Toast.LENGTH_LONG) //sobreescribiendo length
         //startActivity<MainActivity>()//funcion de extension (esto hay que investigarlo)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        adapter.items = when(item.itemId){
+            R.id.filter_all -> getItems()
+            R.id.filter_photos -> getItems().filter { it.type == Type.PHOTO }
+            R.id.filter_videos -> getItems().filter { it.type == Type.VIDEO }
+            else -> emptyList()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }
