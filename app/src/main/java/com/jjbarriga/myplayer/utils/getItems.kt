@@ -2,11 +2,14 @@ package com.jjbarriga.myplayer.utils
 
 import com.jjbarriga.myplayer.utils.MediaItem.*
 
-fun getItems(): List<MediaItem> = (1..10).map {
-    MediaItem("Title $it",
-            "https://placekitten.com/200/200?image=$it",
-            if (it % 3 == 0) Type.VIDEO else Type.PHOTO)
-}   //esto de arriba es la transformacion de lo de abajo usando rangos
+object MediaProvider{       //para convertir la lista en un objeto con el until
+    fun getItems(): List<MediaItem> = (1..10).map {
+        MediaItem("Title $it",
+                "https://placekitten.com/200/200?image=$it",
+                if (it % 3 == 0) Type.VIDEO else Type.PHOTO)
+
+    }   //esto de arriba es la transformacion de lo de abajo usando rangos
+}
 
     /*listOf(
     MediaItem("Title 2", "https://placekitten.com/200/200?image=2", Type.PHOTO),
@@ -20,3 +23,4 @@ fun getItems(): List<MediaItem> = (1..10).map {
     MediaItem("Title 9", "https://placekitten.com/200/200?image=9", Type.PHOTO),
     MediaItem("Title 10", "https://placekitten.com/200/200?image=10", Type.VIDEO)
     )*/
+

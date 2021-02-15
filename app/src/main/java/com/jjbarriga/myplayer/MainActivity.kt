@@ -2,23 +2,21 @@ package com.jjbarriga.myplayer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.ResultReceiver
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.jjbarriga.myplayer.adaptadores.MediaAdapter
 import com.jjbarriga.myplayer.databinding.ActivityMainBinding
-import com.jjbarriga.myplayer.utils.MediaItem
 import com.jjbarriga.myplayer.utils.MediaItem.*
-import com.jjbarriga.myplayer.utils.getItems
+import com.jjbarriga.myplayer.utils.MediaProvider
 import com.jjbarriga.myplayer.utils.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), Logger {
     //si queremos se puede sobreescribir el tag porque las interfaces pueden contener codigo
     override val tag: String = javaClass.simpleName
-    private val adapter by lazy { MediaAdapter(getItems()){toast(it.title)} }
+    private val adapter by lazy { MediaAdapter(MediaProvider.getItems()){toast(it.title)} }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +39,7 @@ class MainActivity : AppCompatActivity(), Logger {
                                             // se usa para que cuando iniciemos la activity, retrasar
                                             // la carga del adapter si faltan datos por recibir
 
-        adapter.items = getItems()          //esto llamaria a NotifyDataSetChanged() y actualizaria
+        adapter.items = MediaProvider.getItems()          //esto llamaria a NotifyDataSetChanged() y actualizaria
                                             // la lista con los nuevos datos
 
         val textView: TextView = TextView(this).apply2 {
@@ -73,12 +71,16 @@ class MainActivity : AppCompatActivity(), Logger {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        adapter.items = when(item.itemId){
-            R.id.filter_all -> getItems()
-            R.id.filter_photos -> getItems().filter { it.type == Type.PHOTO }
-            R.id.filter_videos -> getItems().filter { it.type == Type.VIDEO }
-            else -> emptyList()
+        adapter.items = MediaProvider.getItems().let { media ->
+            when(item.itemId){
+                R.id.filter_all -> media
+                R.id.filter_photos -> media.filter { it.type == Type.PHOTO }
+                R.id.filter_videos -> media.filter { it.type == Type.VIDEO }
+                else -> emptyList()
+            }
+
         }
+
         return super.onOptionsItemSelected(item)
     }
 
